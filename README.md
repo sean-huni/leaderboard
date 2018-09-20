@@ -1,3 +1,3 @@
-# leaderboard (Microservice)
+# leaderboard
 
 Spring-Cloud (Microservice)

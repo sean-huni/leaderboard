@@ -18,8 +18,8 @@ import org.springframework.context.annotation.ComponentScan;
 @EnableEurekaClient
 @EnableFeignClients
 @SpringBootApplication
-@ComponentScan(basePackages = {"io.sciro.leaderboard.feign", "io.sciro.leaderboard.config", "io.sciro.leaderboard.service",
-        "io.sciro.leaderboard.engine", "io.sciro.leaderboard.controller"})
+@ComponentScan(basePackages = {"io.sciro.leaderboard.feign", "io.sciro.leaderboard.config",
+        "io.sciro.leaderboard.service", "io.sciro.leaderboard.controller"})
 public class LeaderboardApp {
     public static void main(String[] args) {
         SpringApplication.run(LeaderboardApp.class, args);

@@ -17,7 +17,7 @@ tagAndPush(){
 rebuild(){
     gradle clean
     gradle build
-    docker build -f Dockerfile -t leaderboard-img .
+    docker build -f Dockerfile -t leaderboard-img . --no-cache
     tagAndPush
 }
 

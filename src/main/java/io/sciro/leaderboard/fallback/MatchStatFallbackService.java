@@ -1,4 +1,4 @@
-package io.sciro.leaderboard.service;
+package io.sciro.leaderboard.fallback;
 
 import io.sciro.leaderboard.entity.Match;
 
@@ -9,13 +9,14 @@ import java.util.List;
  * PROJECT   : leaderboard
  * PACKAGE   : io.sciro.leaderboard.service
  * USER      : sean
- * DATE      : 17-Mon-Sep-2018
- * TIME      : 21:32
+ * DATE      : 28-Fri-Sep-2018
+ * TIME      : 17:17
  * E-MAIL    : kudzai@bcs.org
  * CELL      : +27-64-906-8809
  */
-public interface MatchStatService {
+public interface MatchStatFallbackService {
     /**
+     * (Fallback: Triggered when the Circuit-Breaker is Open)
      * Saves the most recent match.
      *
      * @param match match to be saved.
@@ -24,7 +25,8 @@ public interface MatchStatService {
     Match saveMatchStat(Match match);
 
     /**
-     * Finds a {@link Collection<Match>} of Matches played by a single player.
+     * (Fallback: Triggered when the Circuit-Breaker is Open)
+     * Finds a {@link Collection <Match>} of Matches played by a single player.
      *
      * @param name of the player.
      * @return a {@link Collection<Match>} of matches played by the player queried.
@@ -32,6 +34,7 @@ public interface MatchStatService {
     Collection<Match> findAllMatchStatsByName(String name);
 
     /**
+     * (Fallback: Triggered when the Circuit-Breaker is Open)
      * Finds a {@link Collection<Match>} of Matches played by all single player.
      *
      * @return a {@link Collection<Match>} of matches played by all players.
@@ -39,10 +42,9 @@ public interface MatchStatService {
     Collection<Match> findAllMatchStats();
 
     /**
-     * Saves all matches.
-     *
-     * @param matches {@link List<Match>} to be saved.
-     * @return saved {@link List<Match>}
+     * Assuming that the Leader-Data Microservice resurfaced back online:
+     * 1. The cached records in the {@link List<Match>} have been merged in the DB.
+     * 2. We need to flush/clear the records & keep it empty.
      */
-    Collection<Match> saveAllMatches(Collection<Match> matches);
+    void flashCachedList();
 }

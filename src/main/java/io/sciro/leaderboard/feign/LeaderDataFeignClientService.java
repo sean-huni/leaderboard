@@ -35,4 +35,7 @@ public interface LeaderDataFeignClientService {
     @PostMapping(path = "/match/")
     Match saveNewMatch(@RequestBody Match match);
 
+    @PostMapping(path = "/match/save-all")
+    Collection<Match> saveAllMatches(@RequestBody Iterable<Match> matches);
+
 }

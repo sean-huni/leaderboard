@@ -43,7 +43,7 @@ public class UmpireServiceImpl implements UmpireService {
      * Computes the Umpire's decision for all played competitions for all players.
      *
      * @param matches played by all players.
-     * @return a {@link Collection< LeagueEntry >} of the entire LeagueTable.
+     * @return a {@link Collection<LeagueEntry>} of the entire LeagueTable.
      */
     @Override
     public Collection<LeagueEntry> computeLeagueEntriesForAllPlayers(Collection<Match> matches) {
@@ -157,8 +157,9 @@ public class UmpireServiceImpl implements UmpireService {
                 c = pcPlayer.equals(HandSignal.ROC.getSignal()) ? Result.LOST.getResult() : Result.WON.getResult();
                 break;
             default:
-                LOGGER.error("Never supposed to happen...");
-                throw new DefaultSwitchCaseException("Never supposed to happen");
+                final String ex = "Bad request. Option not found! Only the following options are allowed: ROCK, PAPER, SCISSORS";
+                LOGGER.error(ex);
+                throw new DefaultSwitchCaseException(ex);
         }
 
         return c;

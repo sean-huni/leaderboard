@@ -1,10 +1,12 @@
 package io.sciro.leaderboard.controller;
 
+import io.sciro.leaderboard.exception.DefaultSwitchCaseException;
 import io.sciro.leaderboard.service.UmpireService;
 import io.sciro.leaderboard.entity.LeagueEntry;
 import io.sciro.leaderboard.entity.Match;
 import io.sciro.leaderboard.service.MatchStatService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -58,6 +60,7 @@ public class LeaderboardCtrl {
      *
      * @param match to be saved.
      */
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/save", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Match saveLatestMatch(@RequestBody Match match) {
         return matchStatService.saveMatchStat(match);
@@ -71,7 +74,7 @@ public class LeaderboardCtrl {
      * @return Result {@link Character} of the match.
      */
     @GetMapping(value = "/decision/{player1}/{player2}", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Character getUmpireDecision(@PathVariable("player1") String player1, @PathVariable("player2") String player2) {
+    public Character getUmpireDecision(@PathVariable("player1") String player1, @PathVariable("player2") String player2) throws DefaultSwitchCaseException {
         return umpireService.computeDecision(player1, player2);
     }
 

@@ -33,7 +33,7 @@ public class MergeCachedRecordsToDBImpl {
     @Scheduled(cron = "${purge.cron.expression}")
     @Async
     public void purgeExpired() {
-        LOGGER.info("Cron-Job Notification: ", MergeCachedRecordsToDBImpl.class.getName());
+        LOGGER.info("Cron-Job Notification....");
         LOGGER.info("Cron-Job executed at: {}", new Timestamp(new Date().getTime()));
         dbRecoveryAdapter.saveAndFlushCachedData();
     }

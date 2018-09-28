@@ -23,16 +23,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/game-match")
 public class LeaderboardCtrl {
-    private UmpireService umpireService;
-    private MatchStatService matchStatService;
+    private final UmpireService umpireService;
+    private final MatchStatService matchStatService;
 
     @Autowired
-    public LeaderboardCtrl(MatchStatService matchStatService) {
+    public LeaderboardCtrl(final MatchStatService matchStatService, final UmpireService umpireService) {
         this.matchStatService = matchStatService;
-    }
-
-    @Autowired
-    public void setUmpireService(UmpireService umpireService) {
         this.umpireService = umpireService;
     }
 

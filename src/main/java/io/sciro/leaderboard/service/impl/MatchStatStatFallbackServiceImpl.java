@@ -1,8 +1,8 @@
-package io.sciro.leaderboard.fallback.impl;
+package io.sciro.leaderboard.service.impl;
 
 import io.sciro.leaderboard.entity.Match;
-import io.sciro.leaderboard.fallback.MatchStatFallbackService;
-import org.springframework.stereotype.Component;
+import io.sciro.leaderboard.service.MatchStatFallbackService;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  * E-MAIL    : kudzai@bcs.org
  * CELL      : +27-64-906-8809
  */
-@Component
+@Service("fallback")
 public class MatchStatStatFallbackServiceImpl implements MatchStatFallbackService {
     private static List<Match> matchList = new ArrayList<>();
 
@@ -33,6 +33,10 @@ public class MatchStatStatFallbackServiceImpl implements MatchStatFallbackServic
 //        match.setId(id);
         matchList.add(match);
         return match;
+    }
+
+    private static synchronized Collection<Match> getAllMatches() {
+        return matchList;
     }
 
     private static synchronized void clearCachedList() {
@@ -71,7 +75,7 @@ public class MatchStatStatFallbackServiceImpl implements MatchStatFallbackServic
      */
     @Override
     public Collection<Match> findAllMatchStats() {
-        return matchList;
+        return getAllMatches();
     }
 
     /**
@@ -83,6 +87,4 @@ public class MatchStatStatFallbackServiceImpl implements MatchStatFallbackServic
     public void flashCachedList() {
         clearCachedList();
     }
-
-
 }

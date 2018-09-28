@@ -2,13 +2,14 @@ package io.sciro.leaderboard.service.impl;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import io.sciro.leaderboard.entity.Match;
-import io.sciro.leaderboard.fallback.MatchStatFallbackService;
 import io.sciro.leaderboard.feign.LeaderDataFeignClientService;
 import io.sciro.leaderboard.service.DBRecoveryAdapter;
+import io.sciro.leaderboard.service.MatchStatFallbackService;
 import io.sciro.leaderboard.service.MatchStatService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -41,6 +42,7 @@ public class MatchStatServiceImpl implements MatchStatService, DBRecoveryAdapter
      * @param matchStatFallbackService field to be injected by the IoC BeanFactory.
      */
     @Autowired
+    @Qualifier("fallback")
     public void setFallbackMatchStatService(MatchStatFallbackService matchStatFallbackService) {
         this.matchStatFallbackService = matchStatFallbackService;
     }
@@ -97,6 +99,8 @@ public class MatchStatServiceImpl implements MatchStatService, DBRecoveryAdapter
      * Save the cached data to the DB & clear the cache.
      */
     public void saveAndFlushCachedData() {
+        LOGGER.info("Attempting to execute saveAndFlushCachedData()...");
+
         Collection<Match> matches = findAllMatchStatsFallback();
         if (matches.size() > 0) {
             try {
@@ -111,7 +115,7 @@ public class MatchStatServiceImpl implements MatchStatService, DBRecoveryAdapter
 
             } // ConnectException might be thrown if Feign fails to connect to the Leader-Data Db.
             catch (Exception connExc) {
-                LOGGER.warn("Leader-Data microservice is still OFFLINE/DOWN!!! :-(");
+                LOGGER.warn("Leader-Data microservice is still OFFLINE/DOWN!!! :-(", connExc);
             }
         } else {
             LOGGER.info("All is well... Leader-Data microservice is still ONLINE!!! :-) THUMBS-UP!!!");
@@ -155,7 +159,6 @@ public class MatchStatServiceImpl implements MatchStatService, DBRecoveryAdapter
      * @return a {@link Collection<Match>} of matches played by all players.
      */
     private Collection<Match> findAllMatchStatsFallback() {
-        logMessage("findAllMatchStatsFallback");
         return matchStatFallbackService.findAllMatchStats();
     }
 

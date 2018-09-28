@@ -1,10 +1,10 @@
 package io.sciro.leaderboard.controller;
 
-import io.sciro.leaderboard.exception.DefaultSwitchCaseException;
-import io.sciro.leaderboard.service.UmpireService;
 import io.sciro.leaderboard.entity.LeagueEntry;
 import io.sciro.leaderboard.entity.Match;
+import io.sciro.leaderboard.exception.DefaultSwitchCaseException;
 import io.sciro.leaderboard.service.MatchStatService;
+import io.sciro.leaderboard.service.UmpireService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

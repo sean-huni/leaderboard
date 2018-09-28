@@ -1,4 +1,4 @@
-package io.sciro.leaderboard.fallback;
+package io.sciro.leaderboard.service;
 
 import io.sciro.leaderboard.entity.Match;
 

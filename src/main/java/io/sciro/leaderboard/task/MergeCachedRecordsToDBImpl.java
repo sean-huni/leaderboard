@@ -1,10 +1,15 @@
 package io.sciro.leaderboard.task;
 
 import io.sciro.leaderboard.service.DBRecoveryAdapter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
+
+import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * PROJECT   : leaderboard
@@ -15,18 +20,21 @@ import org.springframework.stereotype.Service;
  * E-MAIL    : kudzai@bcs.org
  * CELL      : +27-64-906-8809
  */
-@Service
-@PropertySource("classpath:leaderboard-service-dev.yml")
-public class MergeCachedRecordsToDB {
+@Component
+public class MergeCachedRecordsToDBImpl {
+    private static final Logger LOGGER = LoggerFactory.getLogger(MergeCachedRecordsToDBImpl.class);
     private final DBRecoveryAdapter dbRecoveryAdapter;
 
     @Autowired
-    public MergeCachedRecordsToDB(DBRecoveryAdapter dbRecoveryAdapter) {
+    public MergeCachedRecordsToDBImpl(DBRecoveryAdapter dbRecoveryAdapter) {
         this.dbRecoveryAdapter = dbRecoveryAdapter;
     }
 
     @Scheduled(cron = "${purge.cron.expression}")
+    @Async
     public void purgeExpired() {
+        LOGGER.info("Cron-Job Notification: ", MergeCachedRecordsToDBImpl.class.getName());
+        LOGGER.info("Cron-Job executed at: {}", new Timestamp(new Date().getTime()));
         dbRecoveryAdapter.saveAndFlushCachedData();
     }
 }

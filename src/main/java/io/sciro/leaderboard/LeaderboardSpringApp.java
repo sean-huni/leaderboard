@@ -4,9 +4,12 @@ import io.sciro.leaderboard.util.LoggingInterceptor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.cloud.netflix.hystrix.EnableHystrix;
+import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import springfox.documentation.builders.PathSelectors;
@@ -28,9 +31,12 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @EnableEurekaClient
 @EnableFeignClients
+@EnableHystrix
+@EnableHystrixDashboard
+@EnableScheduling
 @SpringBootApplication
 @ComponentScan(basePackages = {"io.sciro.leaderboard.feign", "io.sciro.leaderboard.config",
-        "io.sciro.leaderboard.service", "io.sciro.leaderboard.controller"})
+        "io.sciro.leaderboard.service", "io.sciro.leaderboard.controller", "io.sciro.leaderboard.task"})
 public class LeaderboardSpringApp extends WebMvcConfigurerAdapter {
     public static void main(String[] args) {
         SpringApplication.run(LeaderboardSpringApp.class, args);

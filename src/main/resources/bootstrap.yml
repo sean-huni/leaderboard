@@ -1,4 +1,14 @@
 ---
+# Items that apply to ALL profiles:
+eureka:
+  instance:
+    hostname: 10.133.33.126
+  client:
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:8001/eureka/
+
+
+---
 spring:
   application:
     name: leaderboard

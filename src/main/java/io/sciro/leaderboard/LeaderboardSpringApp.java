@@ -1,6 +1,5 @@
 package io.sciro.leaderboard;
 
-import io.sciro.leaderboard.util.LoggingInterceptor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
@@ -11,8 +10,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
@@ -32,22 +29,16 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @EnableEurekaClient
 @EnableFeignClients
-@EnableCircuitBreaker
 @EnableHystrix
 @EnableHystrixDashboard
+@EnableCircuitBreaker
 @EnableScheduling
 @SpringBootApplication
 @ComponentScan(basePackages = {"io.sciro.leaderboard.feign", "io.sciro.leaderboard.config",
-        "io.sciro.leaderboard.service", "io.sciro.leaderboard.service.impl", "io.sciro.leaderboard.controller", "io.sciro.leaderboard.task"})
-public class LeaderboardSpringApp extends WebMvcConfigurerAdapter {
+        "io.sciro.leaderboard.service", "io.sciro.leaderboard.controller", "io.sciro.leaderboard.task"})
+public class LeaderboardSpringApp {
     public static void main(String[] args) {
         SpringApplication.run(LeaderboardSpringApp.class, args);
-    }
-
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new LoggingInterceptor()).addPathPatterns("/**");
     }
 
 

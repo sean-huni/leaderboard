@@ -35,7 +35,7 @@ public class MatchStatStatFallbackServiceImpl implements MatchStatFallbackServic
         return match;
     }
 
-    private static synchronized Collection<Match> getAllMatches() {
+    private static Collection<Match> getAllMatches() {
         return matchList;
     }
 

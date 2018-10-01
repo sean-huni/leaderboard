@@ -44,5 +44,5 @@ public interface MatchStatService {
      * @param matches {@link List<Match>} to be saved.
      * @return saved {@link List<Match>}
      */
-    Collection<Match> saveAllMatches(Collection<Match> matches);
+    Collection<Match> saveAllMatches(Iterable<Match> matches);
 }

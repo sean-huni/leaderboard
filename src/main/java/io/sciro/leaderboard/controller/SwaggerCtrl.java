@@ -12,12 +12,12 @@ import springfox.documentation.annotations.ApiIgnore;
  * TIME      : 15:42
  * E-MAIL    : kudzai@bcs.org
  * CELL      : +27-64-906-8809
- */
+ // */
 @Controller
 @ApiIgnore
 public class SwaggerCtrl {
 
-    @RequestMapping("/")
+    @RequestMapping("/swagger-2")
     public String home() {
         return "redirect:swagger-ui.html";
     }

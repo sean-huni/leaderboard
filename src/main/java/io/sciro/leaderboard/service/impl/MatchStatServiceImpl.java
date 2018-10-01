@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * PROJECT   : leaderboard
@@ -53,7 +54,6 @@ public class MatchStatServiceImpl implements MatchStatService, DBRecoveryAdapter
      *
      * @param match match to be saved.
      */
-    @Override
     @HystrixCommand(fallbackMethod = "saveMatchStatFallback")
     public Match saveMatchStat(Match match) {
         return leaderDataFeignClientService.saveNewMatch(match);
@@ -65,7 +65,6 @@ public class MatchStatServiceImpl implements MatchStatService, DBRecoveryAdapter
      * @param name of the player.
      * @return a {@link Collection<Match>} of matches played by the player queried.
      */
-    @Override
     @HystrixCommand(fallbackMethod = "findAllMatchStatsByNameFallback")
     public Collection<Match> findAllMatchStatsByName(String name) {
         return leaderDataFeignClientService.getAllMatchesByName(name);
@@ -76,7 +75,6 @@ public class MatchStatServiceImpl implements MatchStatService, DBRecoveryAdapter
      *
      * @return a {@link Collection<Match>} of matches played by all players.
      */
-    @Override
     @HystrixCommand(fallbackMethod = "findAllMatchStatsFallback")
     public Collection<Match> findAllMatchStats() {
         return leaderDataFeignClientService.getAllMatches();
@@ -88,7 +86,7 @@ public class MatchStatServiceImpl implements MatchStatService, DBRecoveryAdapter
      * @param matches {@link List <Match>} to be saved.
      * @return saved {@link List<Match>}
      */
-    public Collection<Match> saveAllMatches(Collection<Match> matches) {
+    public Collection<Match> saveAllMatches(Iterable<Match> matches) {
         return leaderDataFeignClientService.saveAllMatches(matches);
     }
 
@@ -103,6 +101,10 @@ public class MatchStatServiceImpl implements MatchStatService, DBRecoveryAdapter
 
         Collection<Match> matches = findAllMatchStatsFallback();
         if (matches.size() > 0) {
+            LOGGER.info("Attempting to Merge Records: /t{}", matches.stream()
+                    .map(Object::toString)
+                    .collect(Collectors.joining("\n")));
+
             try {
                 Collection<Match> matchCollection = saveAllMatches(matches);
                 // if any of the records has an ID, lets assume the batch-transaction was successful.

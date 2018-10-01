@@ -1,5 +1,7 @@
 package io.sciro.leaderboard.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
@@ -13,7 +15,9 @@ import java.util.Date;
  * E-MAIL    : kudzai@bcs.org
  * CELL      : +27-64-906-8809
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Match {
+    @JsonIgnore
     @SerializedName("id")
     private Long id;
     @SerializedName("codeName")
